@@ -7,7 +7,9 @@ function App() {
   const [ipLocation, setIpLocation]=useState();
   const [isError, setIsError] = useState(false);
   const [country, setCountry] = useState();
-  const [flag, setFlag] = useState();
+  const [flag, setFlag] = useState();  
+  const [location, setLocation] = useState();
+
 
   useEffect(() => {
       
@@ -62,7 +64,16 @@ function App() {
       });
   }, [country]);
 
-//console.log(ipLocation);
+
+
+let today = new Date();
+let date = ' '+today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
+let time = ' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+
+// console.log(ipLocation.location.city);
+
+
 
   // https://www.npmjs.com/package/react-paginate
 
@@ -71,19 +82,29 @@ function App() {
   // let array = [];
 
 
+
+if (isError) {
   return (
     <div className="App">
-         
-          Your IP is: {ipLocation&&ipLocation.ip}
-          {ipLocation&&<MyMap  lat={ipLocation.location.lat} lng={ipLocation.location.lng}/>}
-          <img src={flag}/>
+      <h2>You have encountered an error, please try your search again.</h2>
+    </div>
+  )
+} else {
+
+  return (
+    <div className="App">
+      <div className="ipdetails">
+      <img src={flag}/>
+        {ipLocation&&<h3>Your IP is: {ipLocation&&ipLocation.ip}</h3>}
+
+        {ipLocation&&<h5>📍 Your location is: {ipLocation.location.city} , {ipLocation.location.region} </h5>}
+        {ipLocation&&<h5>🗓️ The current date is:{date} </h5>}
+        {ipLocation&&<h5>🕑 The local time is: {time}</h5>}
+      </div>
+      {ipLocation&&<MyMap  lat={ipLocation.location.lat} lng={ipLocation.location.lng}/>}
     </div>
   );
 }
+}
 
 export default App;
-
-
-// 'https://geo.ipify.org/api/v2/country,city?apiKey=at_HXLoCImM2y30wTnSnKWjwCPpZRUmQ'
-
-// 'https://geo.ipify.org/api/v2/country,city?apiKey={process.env.REACT_APP_API_KEY_IPADDRESS}'
