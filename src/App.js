@@ -1,9 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useState, useEffect } from "react";
 import MyMap from "./MyMap";
-
-
 
 function App() {
 
@@ -14,11 +11,13 @@ function App() {
 
   useEffect(() => {
       
-
-    const urlSearch= new URL("https://geo.ipify.org/api/v2/country,city?apiKey=at_HXLoCImM2y30wTnSnKWjwCPpZRUmQ");
+    const apiKey= process.env.REACT_APP_API_KEY_IPADDRESS;
+    const urlSearch= new URL("https://geo.ipify.org/api/v2/country,city?apiKey="+apiKey);
+    //"https://geo.ipify.org/api/v2/country,city?apiKey=at_HXLoCImM2y30wTnSnKWjwCPpZRUmQ"
  
    
-     //console.log("Hello URL:"+ urlSearch); 
+     console.log("Hello URL:"+ urlSearch); 
+     console.log(process.env.REACT_APP_API_KEY_IPADDRESS);
 
     fetch(urlSearch) 
       .then((response) => {
@@ -31,12 +30,12 @@ function App() {
       })
       .then((data) => {
         setIpLocation(data);
-/*         console.log(data)
-        console.log(data.location.lat)
-        console.log(data.location.lng)
-        console.log(data.location.country) */
+       // console.log(data)
+       // console.log(data.location.lat)
+       // console.log(data.location.lng)
+       // console.log(data.location.country) 
         setCountry(data.location.country)
-        console.log(country);
+      
         
         fetch(`https://restcountries.com/v3.1/alpha/${country}`) 
         .then((response1) => {
@@ -48,7 +47,7 @@ function App() {
           return response1.json()
         })
         .then((data1) => { 
-          console.log(data1[0].flags.png)  
+          //console.log(data1[0].flags.png)  
           setFlag(data1[0].flags.png)       
 
 
@@ -63,22 +62,13 @@ function App() {
       });
   }, [country]);
 
-
-
-
-
-
 //console.log(ipLocation);
-
-
 
   // https://www.npmjs.com/package/react-paginate
 
   // npm install --save react-spinners
  
   // let array = [];
-
-
 
 
   return (
